@@ -34,7 +34,7 @@ jobs:
           skip-build-cache: true
 
       - name: Install dependencies
-        run: go get .
+        run: go mod download
 
       - name: Build Check
         run: go build .
