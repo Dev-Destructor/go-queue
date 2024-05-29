@@ -2,7 +2,7 @@
 
 [![Test Cases](https://github.com/Dev-Destructor/go-queue/actions/workflows/ci.yaml/badge.svg)](https://github.com/Dev-Destructor/go-queue/actions/workflows/ci.yaml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Dev-Destructor/go-queue)](https://goreportcard.com/report/github.com/Dev-Destructor/go-queue)
-[![Coverage Status](https://coveralls.io/repos/github.com/Dev-Destructor/go-queue/badge.svg?branch=master)](https://coveralls.io/github.com/Dev-Destructor/go-queue?branch=master)
+[![Coverage Status](https://coveralls.io/github/Dev-Destructor/go-queue/badge.svg?branch=master)](https://coveralls.io/github/Dev-Destructor/go-queue?branch=master)
 
 An in-memory message broker build with Go.
 
