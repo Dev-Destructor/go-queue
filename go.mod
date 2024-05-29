@@ -1,3 +1,3 @@
 module github.com/Dev-Destructor/go-queue
 
-go 1.21.4
+go 1.20
