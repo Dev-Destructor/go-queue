@@ -15,7 +15,7 @@ import (
 // cpu: AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx
 // go test -cpu 1,2,4 -bench . -benchmem
 
-func BenchmarkPublishToNSubscribers(b *testing.B, n int) {
+func benchmarkPublishToNSubscribers(b *testing.B, n int) {
 
 	broker := NewBroker()
 	defer broker.Close(0)
@@ -40,7 +40,7 @@ func BenchmarkPublishToNSubscribers(b *testing.B, n int) {
 	})
 }
 
-func BenchmarkSubscribeToNPublishers(b *testing.B, n int) {
+func benchmarkSubscribeToNPublishers(b *testing.B, n int) {
 	var wg sync.WaitGroup
 
 	broker := NewBroker()
@@ -80,7 +80,7 @@ func BenchmarkSubscribeToNPublishers(b *testing.B, n int) {
 	wg.Wait()
 }
 
-func BenchmarkMSubscriberNPublisher(b *testing.B, m, n int) {
+func benchmarkMSubscriberNPublisher(b *testing.B, m, n int) {
 	var wg sync.WaitGroup
 
 	broker := NewBroker()
@@ -142,7 +142,7 @@ func BenchmarkPublish(b *testing.B) {
 	for _, subscriberCount := range subscriberTopicRatios {
 		name := fmt.Sprintf("Subscribers=%d", subscriberCount)
 		b.Run(name, func(b *testing.B) {
-			BenchmarkPublishToNSubscribers(b, subscriberCount)
+			benchmarkPublishToNSubscribers(b, subscriberCount)
 		})
 	}
 }
@@ -166,7 +166,7 @@ func BenchmarkSubscribe(b *testing.B) {
 	for _, publisherCount := range publisherCounts {
 		name := fmt.Sprintf("Publishers=%d", publisherCount)
 		b.Run(name, func(b *testing.B) {
-			BenchmarkSubscribeToNPublishers(b, publisherCount)
+			benchmarkSubscribeToNPublishers(b, publisherCount)
 		})
 	}
 }
@@ -206,7 +206,7 @@ func BenchmarkMultiSubscriber(b *testing.B) {
 		for _, publisherCount := range publisherCount {
 			name := fmt.Sprintf("Subscribers=%d, Publishers=%d", subscriberCount, publisherCount)
 			b.Run(name, func(b *testing.B) {
-				BenchmarkMSubscriberNPublisher(b, subscriberCount, publisherCount)
+				benchmarkMSubscriberNPublisher(b, subscriberCount, publisherCount)
 			})
 		}
 	}
