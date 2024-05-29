@@ -1,0 +1,53 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version:
+          [
+            "1.15",
+            "1.16",
+            "1.17",
+            "1.18.x",
+            "1.19.x",
+            "1.20.x",
+            "1.21.x",
+            "1.22.x",
+          ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Clear Go modules cache
+        run: go clean -modcache
+
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Display Go version
+        run: go version
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: "latest"
+          args: --timeout=30m
+          only-new-issues: true
+          skip-cache: true
+          skip-pkg-cache: true
+          skip-build-cache: true
+
+      - name: Install dependencies
+        run: go get .
+
+      - name: Build Check
+        run: go build .
+
+      - name: Test with the Go CLI
+        run: go test -v
