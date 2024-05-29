@@ -37,7 +37,7 @@ jobs:
         run: go mod download
 
       - name: Build Check
-        run: go build .
+        run: go build ./...
 
       - name: Run Unit tests
         run: |
