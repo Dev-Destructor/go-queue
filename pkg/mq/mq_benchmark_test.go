@@ -15,7 +15,7 @@ import (
 // cpu: AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx
 // go test -cpu 1,2,4 -bench . -benchmem
 
-func benchmarkPublishToNSubscribers(b *testing.B, n int) {
+func BenchmarkPublishToNSubscribers(b *testing.B, n int) {
 
 	broker := NewBroker()
 	defer broker.Close(0)
@@ -40,13 +40,13 @@ func benchmarkPublishToNSubscribers(b *testing.B, n int) {
 	})
 }
 
-func benchmarkSubscribeToNPublishers(b *testing.B, n int) {
+func BenchmarkSubscribeToNPublishers(b *testing.B, n int) {
 	var wg sync.WaitGroup
 
 	broker := NewBroker()
 	defer broker.Close(0)
 
-	stop := make(chan bool, 0)
+	stop := make(chan bool)
 
 	subscriber := broker.Subscribe(regexp.MustCompile(`test\.*`))
 
@@ -80,13 +80,13 @@ func benchmarkSubscribeToNPublishers(b *testing.B, n int) {
 	wg.Wait()
 }
 
-func benchmarkMSubscriberNPublisher(b *testing.B, m, n int) {
+func BenchmarkMSubscriberNPublisher(b *testing.B, m, n int) {
 	var wg sync.WaitGroup
 
 	broker := NewBroker()
 	defer broker.Close(0)
 
-	stop := make(chan bool, 0)
+	stop := make(chan bool)
 	subscriber := make([]Poller, m)
 	for i := 0; i < m; i++ {
 		subscriber[i] = broker.Subscribe(regexp.MustCompile(`test\.*`))
@@ -142,7 +142,7 @@ func BenchmarkPublish(b *testing.B) {
 	for _, subscriberCount := range subscriberTopicRatios {
 		name := fmt.Sprintf("Subscribers=%d", subscriberCount)
 		b.Run(name, func(b *testing.B) {
-			benchmarkPublishToNSubscribers(b, subscriberCount)
+			BenchmarkPublishToNSubscribers(b, subscriberCount)
 		})
 	}
 }
@@ -166,7 +166,7 @@ func BenchmarkSubscribe(b *testing.B) {
 	for _, publisherCount := range publisherCounts {
 		name := fmt.Sprintf("Publishers=%d", publisherCount)
 		b.Run(name, func(b *testing.B) {
-			benchmarkSubscribeToNPublishers(b, publisherCount)
+			BenchmarkSubscribeToNPublishers(b, publisherCount)
 		})
 	}
 }
@@ -206,7 +206,7 @@ func BenchmarkMultiSubscriber(b *testing.B) {
 		for _, publisherCount := range publisherCount {
 			name := fmt.Sprintf("Subscribers=%d, Publishers=%d", subscriberCount, publisherCount)
 			b.Run(name, func(b *testing.B) {
-				benchmarkMSubscriberNPublisher(b, subscriberCount, publisherCount)
+				BenchmarkMSubscriberNPublisher(b, subscriberCount, publisherCount)
 			})
 		}
 	}

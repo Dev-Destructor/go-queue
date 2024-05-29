@@ -80,10 +80,8 @@ func (q *queue) Close(timeOut time.Duration) {
 		close(q.enqueue)
 		if timeOut >= 0 {
 			go func() {
-				select {
-				case <-time.After(timeOut):
-					q.forceClose()
-				}
+				time.Sleep(timeOut)
+				q.forceClose()
 			}()
 		}
 	})

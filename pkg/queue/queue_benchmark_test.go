@@ -11,7 +11,7 @@ import (
 // cpu: AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx
 // go test -cpu 1,2,4 -bench . -benchmem
 
-func benchmarkPushWithoutPoll(b *testing.B) {
+func BenchmarkPushWithoutPoll(b *testing.B) {
 
 	queue := New()
 	defer queue.Close(0)
@@ -25,7 +25,7 @@ func benchmarkPushWithoutPoll(b *testing.B) {
 	})
 }
 
-func benchmarkBothPushPollWithPrefilledQueue(b *testing.B) {
+func BenchmarkBothPushPollWithPrefilledQueue(b *testing.B) {
 
 	queue := New()
 
@@ -48,7 +48,7 @@ func benchmarkBothPushPollWithPrefilledQueue(b *testing.B) {
 	})
 }
 
-func benchmarkPollWithAsyncPublish(b *testing.B) {
+func BenchmarkPollWithAsyncPublish(b *testing.B) {
 
 	queue := New()
 	defer queue.Close(0)
